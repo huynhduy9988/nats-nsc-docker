@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  nats-server-public:
+    image: huynhduy9988/nats-nsc:2.9.3
+    restart: on-failure
+    ports:
+      - 4224:4222
+    environment:
+      OPERATOR_NAME: 'Operator1'
+      ACCOUNT_NAME: "Account1"
+      USER_NAME: "User1"
+    networks:
+      - nats
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  nats-server-private:
+    image: huynhduy9988/nats-nsc:2.9.3
+    restart: on-failure
+    ports:
+      - 4225:4222
+    environment:
+      OPERATOR_NAME: 'Operator1'
+      ACCOUNT_NAME: "Account1"
+      USER_NAME: "User1"
+    networks:
+      - nats
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  nats:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv4: "true"
